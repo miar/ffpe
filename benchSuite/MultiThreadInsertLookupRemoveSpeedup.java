@@ -70,11 +70,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 
     private static final int ARCH = 64; // 64 bit machine    
     private final static int [] THREADS = {1,4,8,16,24,32};
-    //private final static int [] THREADS = {1};
-    private final static int RUNS = 1; //10
-    private final static int WARMUP_RUNS = 1; //5;    
-    private  static int DATASET_SIZE = 10; //16777216; // 8^8
-    private  static int DATASET_SIZE_BENCH = 3; //3000000;
+    private final static int RUNS = 10;
+    private final static int WARMUP_RUNS = 5;    
+    private  static int DATASET_SIZE = 16777216; // 8^8
+    private  static int DATASET_SIZE_BENCH = 3000000;
     private static long DATASET[] = new long[DATASET_SIZE];
     private final static int TOTAL_RUNS = RUNS + WARMUP_RUNS;     
     Thread threads[] = new Thread[32];	
