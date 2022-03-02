@@ -3,7 +3,7 @@ import java.util.Map;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
-import com.mig.hashtree.*;
+import com.ffp.*;
 import com.romix.scala.collection.concurrent.TrieMap;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -90,7 +90,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -106,10 +106,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();
+			map = new FFPE<Long, Long>();
  
 		    final Map absmap = map;
 		    
@@ -199,7 +199,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -214,10 +214,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();
+			map = new FFPE<Long, Long>();
 		    
 		    final Map absmap = map;
 		    
@@ -330,7 +330,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -347,10 +347,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();		    
+			map = new FFPE<Long, Long>();		    
 		    
 		    final Map absmap = map;
 		    
@@ -442,7 +442,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -459,10 +459,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();		    
+			map = new FFPE<Long, Long>();		    
 		    
 		    final Map absmap = map;
 		    
@@ -558,7 +558,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -575,10 +575,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();
+			map = new FFPE<Long, Long>();
 
 		    
 		    final Map absmap = map;
@@ -676,7 +676,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -692,10 +692,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();
+			map = new FFPE<Long, Long>();
 		    
 		    final Map absmap = map;
 		    
@@ -810,7 +810,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -829,10 +829,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();
+			map = new FFPE<Long, Long>();
 
 		    final Map absmap = map;    
 		    int put_threads = 1;
@@ -956,7 +956,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -975,10 +975,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();
+			map = new FFPE<Long, Long>();
 
 		    final Map absmap = map;    
 		    int put_threads = 1;
@@ -1102,7 +1102,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		System.out.println("################ CSL  ##############");
 	    else if (map instanceof TrieMap) 
 		System.out.println("################ CT  ##############");
-	    else if (map instanceof MigsHashTree1) 
+	    else if (map instanceof FFPS) 
 		System.out.println("################ FFPS ##############");
 	    else
 		System.out.println("################ FFPE ##############");
@@ -1121,10 +1121,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			map = new ConcurrentSkipListMap<Long, Long>();
 		    else if (map instanceof TrieMap) 
 			map = new TrieMap<Long, Long>();
-		    else if (map instanceof MigsHashTree1) 
-			map = new MigsHashTree1<Long, Long>();
+		    else if (map instanceof FFPS) 
+			map = new FFPS<Long, Long>();
 		    else 
-			map = new MigsHashTreeCompressOnRemovalNew3<Long, Long>();
+			map = new FFPE<Long, Long>();
 
 		    final Map absmap = map;    
 		    int put_threads = T;
@@ -1254,10 +1254,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	    new ConcurrentSkipListMap<Long, Long>();
 	Map<Long, Long> ct =
 	    new TrieMap<Long, Long>();
-	MigsHashTree1<Long, Long> olfht = 
-	    new MigsHashTree1<Long, Long>();
-	MigsHashTreeCompressOnRemovalNew3<Long, Long> colfht = 
-	    new MigsHashTreeCompressOnRemovalNew3<Long, Long>();
+	FFPS<Long, Long> olfht = 
+	    new FFPS<Long, Long>();
+	FFPE<Long, Long> colfht = 
+	    new FFPE<Long, Long>();
 	
 
 	Map maps[] = new Map[5];

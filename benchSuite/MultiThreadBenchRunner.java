@@ -11,12 +11,7 @@ public class MultiThreadBenchRunner {
 
     public static void main(String[] args) throws InterruptedException {		
 	MultiThreadInsertLookupRemoveSpeedup bench = new 
-	  MultiThreadInsertLookupRemoveSpeedup (); 
-
-
-
-
-	
+	  MultiThreadInsertLookupRemoveSpeedup (); 	
 	bench.run();	
     }
 }
