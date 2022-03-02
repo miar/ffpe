@@ -741,7 +741,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                 LFHT_AtomicReferenceArray new_hash = new LFHT_AtomicReferenceArray(h, next_p_bits, curr_hash);
                 // assisted expansion - begin
                 if (LFHT_AnsNode.class.cast(ipc).compareAndSetNext(ipc_next, new_hash)) {
-		    // inc_nr_hashes();
                     int bucket = curr_hash.hashEntry(h);
                     chain_next = curr_hash.hash[bucket];
 		    if (IS_COMPRESSION_NODE(chain_next)) {
@@ -1636,7 +1635,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
         long h = hash((E)t);
         if (HN == null && unsafe.compareAndSwapObject(this, HN_addr,
                     null, (new LFHT_AtomicReferenceArray(h)))) {
-	    // inc_nr_hashes();
             return check_insert_bucket_array(HN, h, t, v).value;
         }
 
