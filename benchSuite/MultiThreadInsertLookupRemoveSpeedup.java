@@ -1283,7 +1283,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			       - DATASET_LOOKUP_NFOUND_RATIOS[di]));
 	    System.out.println("##########################################################");	
 	    test_random(maps);
-
+	}
 
 	System.out.println("################ TESTS RANDOM1 ########");
 	
@@ -1306,7 +1306,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	    System.out.println("##########################################################");	
 	    test_random1(maps);
 	}
-	    
+	   
 	    
 	System.out.println("################ TESTS RANDOM2 ########");
 	
@@ -1329,6 +1329,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	    System.out.println("##########################################################");	
 	    test_random2(maps);
 	}
+
     	return;
     }
 
