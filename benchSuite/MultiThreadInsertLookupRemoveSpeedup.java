@@ -69,11 +69,11 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 
 
     private static final int ARCH = 64; // 64 bit machine    
-    private final static int [] THREADS = {1,4,8,16, 24, 32};
+    private final static int [] THREADS = {1,4,8,16,24,32};
     //private final static int [] THREADS = {1};
-    private final static int RUNS = 5;
+    private final static int RUNS = 5; //10
     private final static int WARMUP_RUNS = 1; //5;    
-    private  static int DATASET_SIZE = 16777216;
+    private  static int DATASET_SIZE = 16777216; // 8^8
     private  static int DATASET_SIZE_BENCH = 3000000;
     private static long DATASET[] = new long[DATASET_SIZE];
     private final static int TOTAL_RUNS = RUNS + WARMUP_RUNS;     
@@ -82,7 +82,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
     // insert 8^8 + time + search 8^8 + time
     private void test_1(Map maps[]) throws InterruptedException {
 	
-	//loadAllSearchDataset();
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -165,7 +164,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 				}
 			    });
 		    }
-		    //System.gc();
 		    long time = System.nanoTime();
 		    
 		    for (int ti = 0; ti < T; ti++)
@@ -190,8 +188,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + remove 8^8 + time + search 8^8 + time      
     private void test_2(Map maps[]) throws InterruptedException {    		
-	//loadAllSearchDataset();
-
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -294,8 +290,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 				}
 			    });
 		    }
-		    
-		    //System.gc();
 		    // run threads
 		    long time = System.nanoTime();
 		    
@@ -321,8 +315,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + time + remove 8^8 + time      
     private void test_3(Map maps[]) throws InterruptedException {
-	//loadAllRemoveDataset();
-	
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -408,7 +400,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			    });
 		    }
 		    
-		    //System.gc();
 		    long time = System.nanoTime();
 		    
 		    for (int ti = 0; ti < T; ti++)
@@ -433,7 +424,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + remove (8^8 - 8^7) + time + search 8^8 + time
     private void test_4(Map maps[]) throws InterruptedException {    
-	//loadAllSearchDataset();
 
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
@@ -524,7 +514,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			    });
 		    }
 		    
-		    //System.gc();
 		    // run threads
 		    long time = System.nanoTime();
 		    
@@ -549,7 +538,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + remove (8^8 - 8^7) + time + insert 8^8 + time
     private void test_5(Map maps[]) throws InterruptedException {
-	//loadAllInsertDataset();
 
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
@@ -642,7 +630,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			    });
 		    }
 		    
-		    //System.gc();
 		    // run threads
 		    long time = System.nanoTime();
 		    
@@ -667,9 +654,8 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + remove 8^8 + time + insert 8^8 + time      
     private void test_6(Map maps[]) throws InterruptedException {    			
-	//loadAllInsertDataset();
-	for (Map map : maps) {
 
+	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
 	    else if (map instanceof ConcurrentSkipListMap) 
@@ -774,7 +760,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			    });
 		    }
 		    
-		    //System.gc();
 		    // run threads
 		    long time = System.nanoTime();
 		    
@@ -800,10 +785,8 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 
     // --> (USED IN PAPER) insert 8^8 + remove (8^8 - 8^7) + insert removes/gets 8^8 + time + random 8^8 + time
     private void test_random(Map maps[]) throws InterruptedException {    
-	//loadAllSearchDataset();
 
 	for (Map map : maps) {
-	    //System.gc();	    
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
 	    else if (map instanceof ConcurrentSkipListMap) 
@@ -918,7 +901,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			    });
 		    }
 		    
-		    //System.gc();
 		    // run threads
 		    long time = System.nanoTime();
 		    
@@ -941,15 +923,9 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	return;
     }		
 
-
-
-
-    // insert 8^8 + remove (8^8 - 8^7) + insert inserts/gets 8^8 + time + random DATASET_SIZE_BENCH + time
+    // insert 8^8 + remove (8^8 - 8^7) + insert removes/gets 8^8 + time + random DATASET_SIZE_BENCH + time
     private void test_random1(Map maps[]) throws InterruptedException {    
-	//loadAllSearchDataset();
-
 	for (Map map : maps) {
-	    //System.gc();	    
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
 	    else if (map instanceof ConcurrentSkipListMap) 
@@ -1066,7 +1042,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			    });
 		    }
 		    
-		    //System.gc();
 		    // run threads
 		    long time = System.nanoTime();
 		    
@@ -1089,13 +1064,11 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	return;
     }		
 
-
     // time + random DATASET_SIZE_BENCH + time
     private void test_random2(Map maps[]) throws InterruptedException {    
-	//loadAllSearchDataset();
+
 	DATASET_SIZE = DATASET_SIZE_BENCH;
 	for (Map map : maps) {
-	    //System.gc();	    
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
 	    else if (map instanceof ConcurrentSkipListMap) 
@@ -1186,7 +1159,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 			    });
 		    }
 		    
-		    //System.gc();
 		    // run threads
 		    long time = System.nanoTime();
 		    
@@ -1264,10 +1236,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	maps[0] = chm; maps[1] = cslm; maps[2] = ct;
 	maps[3] = olfht; maps[4] = colfht; 	
 	
-	/*
-	Map maps[] = new Map[2];
-	maps[0] = olfht; maps[1] = colfht;
-	/*
 	
 	System.out.println("################ TEST 1 ##############");
 	loadAllSearchDataset();
@@ -1294,7 +1262,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	test_6(maps);
 	
 	//random datasets ....
-	/*
+
 	System.out.println("################ TESTS RANDOM ########");
 	
 	for (int di = 0; di < DATASET_INSERT_RATIOS.length; di++) {
@@ -1316,8 +1284,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	    System.out.println("##########################################################");	
 	    test_random(maps);
 
-	*/
-	/*
+
 	System.out.println("################ TESTS RANDOM1 ########");
 	
 	for (int di = 0; di < DATASET_INSERT_RATIOS.length; di++) {
@@ -1362,20 +1329,16 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	    System.out.println("##########################################################");	
 	    test_random2(maps);
 	}
-	*/
     	return;
     }
 
-
     // functions to prepare the benchmarks
-
     // load functions
     
     private void loadAllInsertDataset() {
 	for (int i = 0; i < DATASET_SIZE; i++) {
 	    Long rl = ThreadLocalRandom.current().nextLong(DATASET_SIZE + 1);
 	    DATASET[i] = markNumberToBeInserted ((long) rl);
-	    //DATASET[i] = markNumberToBeInserted ((long) i);
 	}
 	return;
     }
@@ -1384,7 +1347,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	for (int i = 0; i < DATASET_SIZE; i++) {
 	    Long rl = ThreadLocalRandom.current().nextLong(DATASET_SIZE + 1);
 	    DATASET[i] = markNumberToBeRemoved ((long) rl);
-	    //DATASET[i] = markNumberToBeRemoved ((long) i);
 	}
 	return;
     }
@@ -1393,7 +1355,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	for (int i = 0; i < DATASET_SIZE; i++) {
 	    Long rl = ThreadLocalRandom.current().nextLong(DATASET_SIZE + 1);
 	    DATASET[i] = markNumberToBeSearched (rl);
-	    //DATASET[i] = markNumberToBeSearched ((long) i);
 	}
 	return;
     }
@@ -1420,7 +1381,6 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 		} else {
 		    generatedLong = markNumberToBeLookNotFound(generatedLong);		
 		}
-		//System.out.println(generatedLong);
 		DATASET[i] = generatedLong;
 		file_writer.write(generatedLong + "\n");
 	    }	    
@@ -1454,12 +1414,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
     private static int getOperation(Long v) {
 	return (int) (v >> (ARCH - 2) & 0x3L);
     }
-    
         
     private static Long getNumber(Long v) {
     	return (v & 0x3FFFFFFFFFFFFFFFL); 
     }    
-
 }
 
 
