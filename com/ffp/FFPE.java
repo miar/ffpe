@@ -1,6 +1,5 @@
 package com.ffp;
 import sun.misc.Unsafe;
-
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import java.awt.Component;
 import java.awt.Dimension;    
-
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressWarnings({"unchecked", "rawtypes", "unused"})
@@ -48,14 +46,13 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
     private long total_memory_jumps;
     private long total_memory_jumps_in_hash_levels;
     private long total_memory_jumps_in_chain_nodes;
-    private long total_empty_hash_levels;  // all entries are empty
-    private long partial_max_value;   // check correctness of the ordered hash map
+    private long total_empty_hash_levels;
+    private long partial_max_value;
     /****************************************************************************
      *                           configuration                                  *
      ****************************************************************************/
 
     private final static int ARCH_BITS = 63;
-
     private static int MAX_NODES_PER_BUCKET;
     private static int N_BITS;
 
@@ -67,13 +64,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
     private static final long prev_hash_addr;
 
     public LFHT_AtomicReferenceArray HN;
-
-
-    /*private final AtomicInteger nr_hashes = new AtomicInteger(0);
-    private final AtomicInteger nr_compressions_tries = new AtomicInteger(0);
-    private final AtomicInteger nr_compressions_ok = new AtomicInteger(0);
-    private final AtomicInteger nr_compressions_failed = new AtomicInteger(0);
-    */
 
     static {
 	    /* initialize the unsafe */
@@ -157,61 +147,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
     /****************************************************************************
      *                           compress operations                            *
      ****************************************************************************/
-    /*
-    private void inc_nr_hashes() {
-	while(true) {
-            int existingValue = nr_hashes.get();
-            int newValue = existingValue + 1;
-            if(nr_hashes.compareAndSet(existingValue, newValue)) {
-                return;
-            }
-	}
-    }
-    public int number_hashes() {
-	return nr_hashes.get();
-    }
-
-    private void inc_nr_compressions_ok() {
-	while(true) {
-            int existingValue = nr_compressions_ok.get();
-            int newValue = existingValue + 1;
-            if(nr_compressions_ok.compareAndSet(existingValue, newValue)) {
-                return;
-            }
-	}
-    }
-    public int number_compressions_ok() {
-	return nr_compressions_ok.get();
-    }
-
-
-    private void inc_nr_compressions_tries() {
-	while(true) {
-            int existingValue = nr_compressions_tries.get();
-            int newValue = existingValue + 1;
-            if(nr_compressions_tries.compareAndSet(existingValue, newValue)) {
-                return;
-            }
-	}
-    }
-    public int number_compressions_tries() {
-	return nr_compressions_tries.get();
-    }
-
-
-    private void inc_nr_compressions_failed() {
-	while(true) {
-            int existingValue = nr_compressions_failed.get();
-            int newValue = existingValue + 1;
-            if(nr_compressions_failed.compareAndSet(existingValue, newValue)) {
-                return;
-            }
-	}
-    }
-    public int number_compressions_failed() {
-	return nr_compressions_failed.get();
-    }
-    */
 
     private static boolean IS_COMPRESSION_NODE(Object node) {
 	return (node instanceof Pair);
@@ -220,7 +155,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
     private static boolean IS_COMPRESSION_NODE(Object node, boolean operation) { 
 	// operation == true  ->   freezing operation
 	// operation == false -> unfreezing operation
-
 	return (node instanceof Pair && 
 		Pair.class.cast(node).mark == operation);
     }
@@ -242,12 +176,9 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 	return;
     }
 
-    private void try_to_compress_hash_level(LFHT_AtomicReferenceArray curr_hash, long key) {
-	
+    private void try_to_compress_hash_level(LFHT_AtomicReferenceArray curr_hash, long key) {	
         if (curr_hash.triggerCompression() == false)
 	    return;
-	    
-	// inc_nr_compressions_tries();
 	
 	LFHT_AtomicReferenceArray prev_hash = curr_hash.ph; // previous hash
 	if (prev_hash == null)
@@ -269,7 +200,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 		    bucket_next = prev_hash.hash[bucket]; 
 		}
 		if (prev_hash.compareAndSet(bucket, freezing_node, prev_hash)) {
-		    // inc_nr_compressions_ok(); // statistics only - comment this
 		    try_to_compress_hash_level(prev_hash, key);
 		    return;
 		}
@@ -289,9 +219,7 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 		bucket_next = prev_hash.hash[bucket]; 
 	    }
 	    // here the bucket_next must hold an unfreezing node
-	} while (prev_hash.compareAndSet(bucket, bucket_next, curr_hash) == false);
-	// inc_nr_compressions_failed();
-	    
+	} while (prev_hash.compareAndSet(bucket, bucket_next, curr_hash) == false);	    
     }
 
     private LFHT_AnsNode<E,V> check_insert_with_compression(LFHT_AtomicReferenceArray curr_hash,
@@ -321,8 +249,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 		if (IS_COMPRESSION_NODE(bucket_next) == false)
 		    return check_insert_bucket_array(curr_hash, h, t, v);
 		
-		// IS_COMPRESSION_NODE(bucket_next)
-
 		next_hash = (LFHT_AtomicReferenceArray) 
 		    Pair.class.cast(bucket_next).reference;
 
@@ -337,7 +263,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 		    
                     if (curr_hash.compareAndSet(bucket, bucket_next, new_hash) == true) {
                         next_hash.updatePreviousHash(new_hash);
-			// inc_nr_hashes();
                         return check_insert_bucket_array(new_hash, h, t, v);
                     } else
 			new_hash.hash[bucket_next_hash] = new_hash;
@@ -407,8 +332,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 		    return;		    
 		}
 		
-		// IS_COMPRESSION_NODE(bucket_next)
-
 		next_hash = (LFHT_AtomicReferenceArray) 
 		    Pair.class.cast(bucket_next).reference;
 
@@ -423,7 +346,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                     new_hash.hash[bucket_next_hash] = bucket_next;
 		    
                     if (curr_hash.compareAndSet(bucket, bucket_next, new_hash) == true) {
-			// inc_nr_hashes();
                         next_hash.updatePreviousHash(new_hash);
 			insert_bucket_array(new_hash, chain_node);
 			return;
@@ -511,7 +433,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                 // assisted expansion - begin
                 if (LFHT_AnsNode.class.cast(ipc).
                         compareAndSetNext(ipc_next, new_hash)) {
-		    // inc_nr_hashes();
                     int bucket = curr_hash.hashEntry(h);
                     chain_next = curr_hash.hash[bucket];
 		    if (IS_COMPRESSION_NODE(chain_next)) {
@@ -578,7 +499,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 		    // compression detected
 		    insert_with_compression(curr_hash, bucket, chain_node);
 		    return;
-
 		}
 
                 if (chain_next == ipc_next) {
@@ -609,11 +529,9 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 			// compression detected
 			insert_with_compression(curr_hash, bucket, chain_node);
 			return;
-
 		    }
                 }
-
-		        /* recover always to a hash bucket array */
+		/* recover always to a hash bucket array */
 
                 if (!IS_HASH(chain_next) || (LFHT_AtomicReferenceArray) chain_next == curr_hash) {
                     // i'm in the curr_hash level
@@ -633,18 +551,18 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                             compareAndSetNext(ipc_next, adjust_node)) {
                         if (!IS_VALID_ENTRY(adjust_node))
                             /* adjusted a node that was valid
-			                    before and is invalid now. It might
-			                    not have been seen by the thread
-			                    that was deleting the node, thus I
-			                    must check is the node is present
-			                    in the current chain and if it is,
-			                    then I must remove it myself. I
-			                    don't care about the return of
-			                    check_delete_bucket_chain, because
-			                    the node was already returned by
-			                    the thread that was deleting the
-			                    node...
-			                */
+			       before and is invalid now. It might
+			       not have been seen by the thread
+			       that was deleting the node, thus I
+			       must check is the node is present
+			       in the current chain and if it is,
+			       then I must remove it myself. I
+			       don't care about the return of
+			       check_delete_bucket_chain, because
+			       the node was already returned by
+			       the thread that was deleting the
+			       node...
+			    */
                             delete_bucket_chain(curr_hash, adjust_node);
                         return;
                     }
@@ -702,18 +620,18 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
             if (curr_hash.compareAndSet(bucket, curr_hash, chain_node)) {
                 if (!IS_VALID_ENTRY(chain_node))
 		       /* adjusted a node that was valid
-		            before and is invalid now. It might
-		            not have been seen by the thread
-		            that was deleting the node, thus I
-		            must check is the node is present
-		            in the current chain and if it is,
-		            then I must remove it myself. I
-		            don't care about the return of
-		            check_delete_bucket_chain, because
-		            the node was already returned by
-		            the thread that was deleting the
-		            node...
-		        */
+			  before and is invalid now. It might
+			  not have been seen by the thread
+			  that was deleting the node, thus I
+			  must check is the node is present
+			  in the current chain and if it is,
+			  then I must remove it myself. I
+			  don't care about the return of
+			  check_delete_bucket_chain, because
+			  the node was already returned by
+			  the thread that was deleting the
+			  node...
+		       */
                     delete_bucket_chain(curr_hash, chain_node);
                 return;
             }
@@ -756,7 +674,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                     new_hash.hash[bucket_next_hash] = next_hash;
 
                     if (curr_hash.compareAndSet(bucket, next_hash, new_hash) == true) {
-			// inc_nr_hashes();
                         next_hash.updatePreviousHash(new_hash);
                         insert_bucket_array(new_hash, chain_node);
                         return;
@@ -906,7 +823,7 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 		
 		/* recover always to a hash bucket array */
                 if (!IS_HASH(chain_next) || (LFHT_AtomicReferenceArray) chain_next == curr_hash)
-		            // i'm in the curr_hash level
+		    // i'm in the curr_hash level
                     return check_insert_bucket_array(curr_hash, h, t, v);
 
             } else {
@@ -922,7 +839,7 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                     chain_next = LFHT_AnsNode.class.cast(ipc).getNext();
                 }
 
-		        /* recover always to a hash bucket array */
+		/* recover always to a hash bucket array */
                 if (!IS_HASH(chain_next) || (LFHT_AtomicReferenceArray) chain_next == curr_hash)
                     return check_insert_bucket_array(curr_hash, h, t, v);
 
@@ -973,7 +890,7 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 
         if (IS_HASH(bucket_next)) {
 	    /* with deletes a bucket entry might refer more than once to curr_hash */
-	        // ordered insertion (begin)
+	    // ordered insertion (begin)
             LFHT_AtomicReferenceArray next_hash = (LFHT_AtomicReferenceArray) bucket_next; // once hash, always hash
             int next_p_bits = next_position_bit(h, next_hash.hash_val);
             if (next_p_bits <= next_hash.p_bits) {
@@ -999,7 +916,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                     new_hash.hash[bucket_next_hash] = next_hash;
 
                     if (curr_hash.compareAndSet(bucket, next_hash, new_hash) == true) {
-			// inc_nr_hashes();
                         next_hash.updatePreviousHash(new_hash);
                         return check_insert_bucket_array(new_hash, h, t, v);
                     }
@@ -1094,27 +1010,26 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 
                 if (chain_next == ipc_next)
                     return null;
-
-		        /* recover always to a hash bucket array */
-
+		/* recover always to a hash bucket array */
+		
                 if (IS_HASH(chain_next))
                     if(chain_next != curr_hash)
-			        /* invariant */
+			/* invariant */
                         return check_bucket_array((LFHT_AtomicReferenceArray)
                                         chain_next, h, t);
 
                 return check_bucket_array(curr_hash, h, t);
             } else {
-		        /* ipc is a node */
+		/* ipc is a node */
                 chain_next = LFHT_AnsNode.class.cast(ipc).getNext();
                 if (chain_next == ipc_next)
                     return null;
 
-		        /* recover always to a hash bucket array */
+		/* recover always to a hash bucket array */
                 if (!IS_HASH(chain_next) || (LFHT_AtomicReferenceArray) chain_next == curr_hash)
                     return check_bucket_array(curr_hash,
                             h, t);
-		        /* recover with jump_hash */
+		/* recover with jump_hash */
             }
         }
 
@@ -1206,20 +1121,20 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                 if (chain_next == ipc_next)
                     return null;
 
-		        /* recover always to a hash bucket array */
+		/* recover always to a hash bucket array */
                 if (IS_HASH(chain_next))
                     if(chain_next != curr_hash)
-			            /* invariant */
+			/* invariant */
                         return check_delete_bucket_array((LFHT_AtomicReferenceArray)
-                                        chain_next, h, t);
+							 chain_next, h, t);
                 return check_delete_bucket_array(curr_hash, h, t);
             } else {
-		        /* ipc is a node */
+		/* ipc is a node */
                 chain_next = LFHT_AnsNode.class.cast(ipc).getNext();
                 if (chain_next == ipc_next)
                     return null;
 
-        		/* recover always to a hash bucket array */
+		/* recover always to a hash bucket array */
                 if (!IS_HASH(chain_next) || (LFHT_AtomicReferenceArray) chain_next == curr_hash)
                     return check_delete_bucket_array(curr_hash, h, t);
 
@@ -1243,7 +1158,7 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
             do
                 chain_curr = LFHT_AnsNode.class.cast(chain_curr).getNext();
             while (!IS_HASH(chain_curr) &&
-                    !LFHT_AnsNode.class.cast(chain_curr).valid());
+		   !LFHT_AnsNode.class.cast(chain_curr).valid());
 
             if (IS_HASH(chain_curr) && ((LFHT_AtomicReferenceArray)chain_curr != curr_hash)) {
     		/* re-positioning the thread in next hash level.  the
@@ -1309,8 +1224,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 
                     return delete_bucket_chain(jump_hash, chain_node);
                 }
-
-
             } else /* LFHT_AnsNode.class.cast(chain_curr) == chain_node */ {
 
                 if (chain_prev_valid_candidate == curr_hash) {
@@ -1318,10 +1231,10 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                     if (curr_hash.compareAndSet(bucket,
                             chain_prev_valid_candidate_next,
                             chain_next_valid_candidate)) {
-    			            /* update was ok */
+			/* update was ok */
                         if (!IS_HASH(chain_next_valid_candidate) &&
                                 !IS_VALID_ENTRY((LFHT_AnsNode)chain_next_valid_candidate))
-			                /* restart the process */
+			    /* restart the process */
                             continue;
 			if (chain_next_valid_candidate == curr_hash)
 			    // chain is empty
@@ -1333,16 +1246,16 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                     }
                 } else /* chain_prev_valid_candidate is node */ {
                     if (LFHT_AnsNode.class.cast(chain_prev_valid_candidate).
-                            compareAndSetNext(chain_prev_valid_candidate_next,
-                                    chain_next_valid_candidate)) {
-    			        /* update was ok */
+			compareAndSetNext(chain_prev_valid_candidate_next,
+					  chain_next_valid_candidate)) {
+			/* update was ok */
                         if (!IS_HASH(chain_next_valid_candidate) &&
-                                !IS_VALID_ENTRY((LFHT_AnsNode)chain_next_valid_candidate))
-		                    /* restart the process */
+			    !IS_VALID_ENTRY((LFHT_AnsNode)chain_next_valid_candidate))
+			    /* restart the process */
                             continue;
                         return chain_node;
                     } else /* compareAndSetNext == false */ {
-            			/* restart the process */
+			/* restart the process */
                         continue;
                     }
                 }
@@ -1385,8 +1298,8 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
         do {
             if (flush_nodes)
                 System.err.println("\n bkt entry -> " +
-                        bucket_entry + " (level = " +
-                        level + ", entries = " + curr_hash.n_entries + ", pos = " + curr_hash.p_bits + ")");
+				   bucket_entry + " (level = " +
+				   level + ", entries = " + curr_hash.n_entries + ", pos = " + curr_hash.p_bits + ")");
             total_buckets++;
 
             if (!curr_hash.isEmptyBucket(bucket_entry)) {
@@ -1445,12 +1358,7 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
             total_min_nodes = 0;
 
         System.out.println("-----------------------------------------------------");
-	// System.out.println(" Nr of hashes used         = " + number_hashes()); 
-	// System.out.println(" Nr of compressions tried  = " + number_compressions_tries()); 
-	// System.out.println(" Nr of compressions done   = " + number_compressions_ok()); 
-	// System.out.println(" Nr of compressions failed = " + number_compressions_failed()); 
         System.out.println(" Nr of valid nodes         = " + total_nodes_valid);
-        //System.out.println(" Nr of invalid nodes       = " + total_nodes_invalid);
 	System.out.println(" Nr of empty hash levels   = " + total_empty_hash_levels);
         System.out.println(" Nr of buckets             = " + total_buckets);
         System.out.println(" Nr of empty buckets       = " + total_empties);
@@ -1516,7 +1424,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
             System.exit(0);
         }
 
-
         if (count_nodes > total_max_nodes)
             total_max_nodes = count_nodes;
         if (count_nodes < total_min_nodes)
@@ -1551,8 +1458,8 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                 String string_white_spaces =  String.format("%" + white_spaces + "s", "");
 
                 System.err.println(string_white_spaces +
-                        " bkt entry -> " +  bucket_entry + " [level = " +
-                        level + ", entries = " + curr_hash.n_entries + ", pos = " + curr_hash.p_bits + "]");
+				   " bkt entry -> " +  bucket_entry + " [level = " +
+				   level + ", entries = " + curr_hash.n_entries + ", pos = " + curr_hash.p_bits + "]");
             }
             total_buckets++;
 
@@ -1666,9 +1573,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
         do {
             curr_pair = chain_node.next;
 	    
-	    //if (!IS_VALID_ENTRY(chain_node))
-	    //return false;
-
             if (IS_HASH(curr_pair.reference))
                 // continue the expansion for now
                 return true;
@@ -1756,7 +1660,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
                 int bucket = new_hash.hashEntry(next_hash.hash_val);
                 new_hash.hash[bucket] = next_hash;
                 if (unsafe.compareAndSwapObject(this, HN_addr, next_hash, new_hash) == true) {
-		    // inc_nr_hashes();
                     next_hash.updatePreviousHash(new_hash);
                     return check_insert_bucket_array(HN, h, t, v).value;
                 }
@@ -1965,7 +1868,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 	}
 
 
-
         private boolean isEmptyBucket(int bucket_pos) {
 
             if ((hash[bucket_pos] == this)) {
@@ -2002,7 +1904,6 @@ public class FFPE<E, V> extends AbstractMap<E, V> implements ConcurrentMap<E,V> 
 		// compression detected
 		return;
 	    }
-
 
             if (next_hash.p_bits < new_hash.p_bits) {
                 do {
