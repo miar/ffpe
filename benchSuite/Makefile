@@ -14,5 +14,5 @@ GetUpdatedFFP:
 	$(JDK_PATH)/$(JDK)/javac *.java
 
 clean: 
-	del *.class
+	rm *.class
 

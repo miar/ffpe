@@ -71,10 +71,10 @@ public class MultiThreadInsertLookupRemoveSpeedup {
     private static final int ARCH = 64; // 64 bit machine    
     private final static int [] THREADS = {1,4,8,16,24,32};
     //private final static int [] THREADS = {1};
-    private final static int RUNS = 5; //10
+    private final static int RUNS = 1; //10
     private final static int WARMUP_RUNS = 1; //5;    
-    private  static int DATASET_SIZE = 16777216; // 8^8
-    private  static int DATASET_SIZE_BENCH = 3000000;
+    private  static int DATASET_SIZE = 10; //16777216; // 8^8
+    private  static int DATASET_SIZE_BENCH = 3; //3000000;
     private static long DATASET[] = new long[DATASET_SIZE];
     private final static int TOTAL_RUNS = RUNS + WARMUP_RUNS;     
     Thread threads[] = new Thread[32];	
@@ -1366,27 +1366,20 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 							    double ops_found_lookup,
 							    double ops_nfound_lookup,
 							    double ops_remove) {	
-	try {
-	    BufferedWriter file_writer = new BufferedWriter(
-	         new FileWriter("datasets/dataset_" + (di + 10)));
-	    
-	    for (int i = 0; i < DATASET_SIZE_BENCH; i++) {
-		Long generatedLong = new Random().nextLong();
-		double op = new Random().nextDouble();
-		if (op < ops_remove) {
-		    generatedLong = markNumberToBeRemoved(generatedLong);
-		} else if (op < (ops_remove + ops_insert)) {
-		    generatedLong = markNumberToBeInserted(generatedLong);
-		} else if (op < (ops_remove + ops_insert + ops_found_lookup)) {
-		    generatedLong = markNumberToBeLookFound(generatedLong);
-		} else {
-		    generatedLong = markNumberToBeLookNotFound(generatedLong);		
-		}
-		DATASET[i] = generatedLong;
-		file_writer.write(generatedLong + "\n");
-	    }	    
-	    file_writer.close(); 
-	} catch (Exception e) {e.printStackTrace();} 
+	for (int i = 0; i < DATASET_SIZE_BENCH; i++) {
+	    Long generatedLong = new Random().nextLong();
+	    double op = new Random().nextDouble();
+	    if (op < ops_remove) {
+		generatedLong = markNumberToBeRemoved(generatedLong);
+	    } else if (op < (ops_remove + ops_insert)) {
+		generatedLong = markNumberToBeInserted(generatedLong);
+	    } else if (op < (ops_remove + ops_insert + ops_found_lookup)) {
+		generatedLong = markNumberToBeLookFound(generatedLong);
+	    } else {
+		generatedLong = markNumberToBeLookNotFound(generatedLong);		
+	    }
+	    DATASET[i] = generatedLong;
+	}	    
     }
    
     /* auxiliar functions */
