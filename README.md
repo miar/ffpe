@@ -1,9 +1,9 @@
 
-Lock-Free Fixed Persistent Sorted ans Elastic Hash Map (FFPE)
+Lock-Free Fixed Persistent Sorted and Elastic Hash Map (FFPE)
 
 Steps to compare Concurrent Hash Maps (CHM), Concurrent Skip Lists
-(CSL), Concurrent Tries (CT) and FFP (O-Original, S-Sorted and
-E-Elastic) models in Linux using a terminal emulator:
+(CSL), Concurrent Tries (CT) and FFP (S-Sorted and E-Elastic) models
+in Linux using a terminal emulator:
 
 1. git clone git@github.com:miar/ffpe.git
 
