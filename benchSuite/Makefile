@@ -1,6 +1,5 @@
 JDK = openjdk/jdk-13.0.1/bin
 JDK_PATH = /home/miguelareias/.bin
-HOSTNAME = $(shell hostname)
 TEST = MultiThreadBenchRunner
 FFP = com/ffp
 
