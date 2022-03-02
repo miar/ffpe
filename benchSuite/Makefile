@@ -1,5 +1,5 @@
 JDK = openjdk/jdk-13.0.1/bin
-JDK_PATH = /home/miguelareias/.bin
+JDK_PATH = /home/$(USER)/.bin
 TEST = MultiThreadBenchRunner
 FFP = com/ffp
 
