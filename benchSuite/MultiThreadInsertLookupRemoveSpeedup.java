@@ -81,7 +81,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
         
     // insert 8^8 + time + search 8^8 + time
     private void test_1(Map maps[]) throws InterruptedException {
-	
+	System.out.println("## insert 8^8 + time + search 8^8 + time ##");
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -187,7 +187,8 @@ public class MultiThreadInsertLookupRemoveSpeedup {
     }
 	
     // insert 8^8 + remove 8^8 + time + search 8^8 + time      
-    private void test_2(Map maps[]) throws InterruptedException {    		
+    private void test_2(Map maps[]) throws InterruptedException {    	
+	System.out.println("## insert 8^8 + remove 8^8 + time + search 8^8 + time ##");	
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -315,6 +316,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + time + remove 8^8 + time      
     private void test_3(Map maps[]) throws InterruptedException {
+	System.out.println("## insert 8^8 + time + remove 8^8 + time ##");
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -424,7 +426,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + remove (8^8 - 8^7) + time + search 8^8 + time
     private void test_4(Map maps[]) throws InterruptedException {    
-
+	System.out.println("## insert 8^8 + remove (8^8 - 8^7) + time + search 8^8 + time ##");
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -538,7 +540,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + remove (8^8 - 8^7) + time + insert 8^8 + time
     private void test_5(Map maps[]) throws InterruptedException {
-
+	System.out.println("## insert 8^8 + remove (8^8 - 8^7) + time + insert 8^8 + time ##");
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -654,7 +656,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 	
     // insert 8^8 + remove 8^8 + time + insert 8^8 + time      
     private void test_6(Map maps[]) throws InterruptedException {    			
-
+	System.out.println("## insert 8^8 + remove 8^8 + time + insert 8^8 + time ##");
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -783,9 +785,9 @@ public class MultiThreadInsertLookupRemoveSpeedup {
     }
 
 
-    // --> (USED IN PAPER) insert 8^8 + remove (8^8 - 8^7) + insert removes/gets 8^8 + time + random 8^8 + time
+    // (Used in Computing) insert 8^8 + remove (8^8 - 8^7) + insert removes/gets 8^8 + time + random 8^8 + time
     private void test_random(Map maps[]) throws InterruptedException {    
-
+	System.out.println("## insert 8^8 + remove (8^8 - 8^7) + insert removes/gets 8^8 + time + random 8^8 + time  ##");
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
@@ -924,8 +926,9 @@ public class MultiThreadInsertLookupRemoveSpeedup {
     }		
 
     // insert 8^8 + remove (8^8 - 8^7) + insert removes/gets 8^8 + time + random DATASET_SIZE_BENCH + time
-    private void test_random1(Map maps[]) throws InterruptedException {    
-	for (Map map : maps) {
+    private void test_random1(Map maps[]) throws InterruptedException { 
+	System.out.println("## insert 8^8 + remove (8^8 - 8^7) + insert removes/gets 8^8 + time + random DATASET_SIZE_BENCH + time ##");
+ 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
 		System.out.println("################ CHM  ##############");
 	    else if (map instanceof ConcurrentSkipListMap) 
@@ -1066,7 +1069,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
 
     // time + random DATASET_SIZE_BENCH + time
     private void test_random2(Map maps[]) throws InterruptedException {    
-
+	System.out.println("## time + random DATASET_SIZE_BENCH + time ##");
 	DATASET_SIZE = DATASET_SIZE_BENCH;
 	for (Map map : maps) {
 	    if (map instanceof ConcurrentHashMap) 
@@ -1182,7 +1185,7 @@ public class MultiThreadInsertLookupRemoveSpeedup {
     }		
 
     
-    // remove 8^7 keys or remove 4^3 keys
+    // remove (8^8 - 8^7) keys
     static long n = 0;
     static void remove_keys_by_depth(Map absmap,
 				     int depth,
